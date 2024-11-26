@@ -1,20 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import {
-  Title,
-  Text,
-  Button,
-  Center,
-  Container,
-  Flex,
-  Card,
-  Group,
-} from '@mantine/core';
-import { useStore } from '../store/planes';
+import { Title, Text, Button, Center, Container, Flex } from '@mantine/core';
 
 export default function WelcomeView() {
   const navigate = useNavigate();
-
-  const { planes } = useStore();
 
   return (
     <Flex h="100%" component="main" justify="center" align="center">
@@ -43,40 +31,6 @@ export default function WelcomeView() {
             </Button>
           </Center>
         </Flex>
-
-        {planes.length ? (
-          <Flex mt={50} gap={10} direction="column">
-            <Title order={4}>Ваши бизнес-планы</Title>
-
-            <Group gap={20}>
-              {planes.map((plan) => (
-                <Card
-                  key={plan.id}
-                  shadow="sm"
-                  padding="sm"
-                  radius="md"
-                  withBorder
-                >
-                  <Group justify="space-between" mb="xs">
-                    <Text fw={500}>{plan.sphere}</Text>
-                  </Group>
-
-                  <Group justify="space-between" wrap="nowrap">
-                    <Button color="blue" radius="md" fw={500}>
-                      Изменить
-                    </Button>
-
-                    <Button color="blue" radius="md" fw={500}>
-                      Посмотреть
-                    </Button>
-                  </Group>
-                </Card>
-              ))}
-            </Group>
-          </Flex>
-        ) : (
-          <div></div>
-        )}
       </Container>
     </Flex>
   );
