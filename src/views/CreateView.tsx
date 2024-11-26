@@ -44,14 +44,16 @@ export default function CreateView() {
   const [monthlyPayment, setMonthlyPayment] = useState(0);
 
   const [isVisibelForm, setVisibelForm] = useState<boolean>(false);
+  const [isDisabledTaxRate, setDisabledTaxRate] = useState<boolean>(true);
 
   const form = useForm<FormValues>({
     mode: 'controlled',
+    validateInputOnBlur: true,
     initialValues: {
-      sphere: '',
+      sphere: '0',
       profit: 0,
       budget: 0,
-      budgetType: '',
+      budgetType: 'personal',
       loanAmount: '',
       loanTerm: '',
       interestRate: '',
@@ -62,19 +64,56 @@ export default function CreateView() {
       incomes: [],
       employees: [],
     },
+
+    validate: {
+      expenses: (value) =>
+        value.length < 0 ? 'Name must have at least 2 letters' : null,
+      incomes: (value) =>
+        value.length < 0 ? 'Name must have at least 2 letters' : null,
+      profit: (value) =>
+        value < 0 ? 'You must be at least 18 to register' : null,
+      budget: (value) =>
+        value < 0 ? 'You must be at least 18 to register' : null,
+    },
   });
 
   useEffect(() => {
     setDescription(
-      spheres.find((item) => item.id == form.values.sphere)?.description ||
+      spheres.find((item) => item.value == form.values.sphere)?.description ||
         null,
     );
   }, [form.values.sphere]);
 
   useEffect(() => {
+    if (form.values.legalForm == 'personal') {
+      setDisabledTaxRate(false);
+      return;
+    }
+
+    setDisabledTaxRate(true);
+
+    if (form.values.legalForm == 'llc') {
+      form.setFieldValue('taxRate', '20');
+    } else if (form.values.legalForm == 'individual-1') {
+      form.setFieldValue('taxRate', '6');
+    } else if (form.values.legalForm == 'individual-2') {
+      form.setFieldValue('taxRate', '15');
+    } else if (form.values.legalForm == 'self-employed') {
+      form.setFieldValue('taxRate', '4');
+    } else if (form.values.legalForm == 'unregister') {
+      form.setFieldValue('taxRate', '');
+    }
+  }, [form.values.legalForm]);
+
+  useEffect(() => {
+    // const s = plane.interestRate / 100 / 12;
+    // const c = (s * (1 + s) ** plane.loanTerm) / ((1 + s) ** plane.loanTerm - 1);
+    //
+    // creditPayment = plane.loanAmount * c;
+
     const s = Number(form.values.interestRate) / 100 / 12;
-    const c =
-      (s * (1 + s) ** Number(form.values.loanTerm)) / (1 + s) ** (s - 1);
+    const lt = Number(form.values.loanTerm);
+    const c = (s * (1 + s) ** lt) / ((1 + s) ** lt - 1);
 
     setMonthlyPayment(Math.round(Number(form.values.loanAmount) * c));
   }, [form.values.loanTerm, form.values.interestRate]);
@@ -110,10 +149,7 @@ export default function CreateView() {
               <Center>
                 <Select
                   w={300}
-                  data={spheres.map((item) => ({
-                    value: item.id,
-                    label: item.name,
-                  }))}
+                  data={spheres}
                   key={form.key('sphere')}
                   {...form.getInputProps('sphere')}
                 />
@@ -147,10 +183,7 @@ export default function CreateView() {
             <Flex direction="column" gap={20} w={420}>
               <Select
                 label="Выберите сфера бизнеса"
-                data={spheres.map((item) => ({
-                  value: item.id,
-                  label: item.name,
-                }))}
+                data={spheres}
                 key={form.key('sphere')}
                 {...form.getInputProps('sphere')}
               />
@@ -238,12 +271,12 @@ export default function CreateView() {
                   />
 
                   <NumberInput
+                    disabled={isDisabledTaxRate}
                     allowNegative={false}
                     min={0}
                     max={100}
                     suffix="%"
                     label="Введите процент налога"
-                    placeholder="10"
                     key={form.key('taxRate')}
                     {...form.getInputProps('taxRate')}
                   />

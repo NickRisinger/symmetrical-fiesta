@@ -27,7 +27,7 @@ const INCOME_TYPE = [
   { value: 'straight', label: 'Прямой доход' },
 ];
 
-type Income = { type: any; name: any; cost: any };
+type Income = { type: any; name: any; cost: any; clients: any };
 
 export default function IncomeList({
   form,
@@ -40,6 +40,7 @@ export default function IncomeList({
     type: '',
     name: '',
     cost: '',
+    clients: '',
   });
 
   const deleteIncome = (index: number) => {
@@ -51,6 +52,7 @@ export default function IncomeList({
       type: '',
       name: '',
       cost: '',
+      clients: '',
     });
 
     form.insertListItem('incomes', { ...income, id: uuid() });
@@ -132,8 +134,22 @@ export default function IncomeList({
             }
             allowNegative={false}
             thousandSeparator=" "
-            placeholder="Сумма дохода"
+            placeholder={
+              income.type == 'client' ? 'Средний чек' : 'Сумма дохода'
+            }
           />
+
+          {income.type == 'client' && (
+            <NumberInput
+              value={income ? income.clients : null}
+              onChange={(value) =>
+                setIncome((item) => ({ ...item, clients: value }))
+              }
+              allowNegative={false}
+              thousandSeparator=" "
+              placeholder="Количество клиентов"
+            />
+          )}
 
           <Group justify="flex-end">
             <Button onClick={addIncome}>Сохранить</Button>
