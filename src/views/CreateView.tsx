@@ -106,11 +106,6 @@ export default function CreateView() {
   }, [form.values.legalForm]);
 
   useEffect(() => {
-    // const s = plane.interestRate / 100 / 12;
-    // const c = (s * (1 + s) ** plane.loanTerm) / ((1 + s) ** plane.loanTerm - 1);
-    //
-    // creditPayment = plane.loanAmount * c;
-
     const s = Number(form.values.interestRate) / 100 / 12;
     const lt = Number(form.values.loanTerm);
     const c = (s * (1 + s) ** lt) / ((1 + s) ** lt - 1);

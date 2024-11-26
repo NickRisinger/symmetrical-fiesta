@@ -20,8 +20,12 @@ export default function PlaneView() {
       <Tabs defaultValue="1">
         <Tabs.List>
           {result.map((item, index) => (
-            <Tabs.Tab key={`${index} месяц`} value={String(index + 1)}>
-              <Text c={item.profitMounth && '#a9d08e'}>{index + 1} месяц</Text>
+            <Tabs.Tab
+              className={item.profitMounth && 'finalMounts'}
+              key={`${index} месяц`}
+              value={String(index + 1)}
+            >
+              <Text>{index + 1} месяц</Text>
             </Tabs.Tab>
           ))}
         </Tabs.List>
