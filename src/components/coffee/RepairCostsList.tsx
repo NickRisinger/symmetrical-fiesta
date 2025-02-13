@@ -7,35 +7,24 @@ import {
   Title,
   Modal,
   Button,
-  Select,
   TextInput,
   NumberInput,
-  Text,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { UseFormReturnType } from '@mantine/form';
 import { ArchiveBoxXMarkIcon } from '@heroicons/react/24/outline';
 import { v4 as uuid } from 'uuid';
 
-const EXPENSE: Record<string, string> = {
-  'one-time': 'Единоразовый',
-  constant: 'Постоянный',
-};
-
-const EXPENSE_TYPES = [
-  { value: 'one-time', label: 'Единоразовый' },
-  { value: 'constant', label: 'Постоянный' },
-];
-
-type Expense = { type: any; name: any; cost: any; period: any };
-
-export default function ExpenseList({ form }: { form: any }) {
+export default function RepairCostsList({
+  form,
+}: {
+  form: UseFormReturnType<any>;
+}) {
   const [opened, { open, close }] = useDisclosure(false);
 
-  const [expense, setExpense] = useState<Expense>({
-    type: '',
+  const [expense, setExpense] = useState<any>({
     name: '',
     cost: '',
-    period: '',
   });
 
   const deleteExpense = (index: number) => {
@@ -44,13 +33,11 @@ export default function ExpenseList({ form }: { form: any }) {
 
   const addExpense = () => {
     setExpense({
-      type: '',
       name: '',
       cost: '',
-      period: '',
     });
 
-    form.insertListItem('expenses', { ...expense, id: uuid() });
+    form.insertListItem('repairExpenses', { ...expense, id: uuid() });
 
     close();
   };
@@ -58,7 +45,9 @@ export default function ExpenseList({ form }: { form: any }) {
   return (
     <Flex mt={10} gap={10} direction="column">
       <Group justify="space-between">
-        <Title order={4}>Расходы</Title>
+        <Title order={4}>
+          Стоимость ремонта (вы можете добавить несколько статей расходов)
+        </Title>
         <Button onClick={open} variant="light">
           Добавить
         </Button>
@@ -69,10 +58,8 @@ export default function ExpenseList({ form }: { form: any }) {
           {form.values.expenses.length ? (
             form.values.expenses.map((element, index) => (
               <Table.Tr key={element.id}>
-                <Table.Td>{EXPENSE[element.type]}</Table.Td>
                 <Table.Td>{element.name}</Table.Td>
                 <Table.Td>{element.cost}</Table.Td>
-                <Table.Td>{element.period}</Table.Td>
                 <Table.Td>
                   <ActionIcon
                     onClick={() => deleteExpense(index)}
@@ -102,21 +89,12 @@ export default function ExpenseList({ form }: { form: any }) {
         centered
       >
         <Flex direction="column" gap={20}>
-          <Select
-            data={EXPENSE_TYPES}
-            value={expense ? expense.type : null}
-            onChange={(_value, option) =>
-              setExpense((item) => ({ ...item, type: option.value }))
-            }
-            placeholder="Тип расхода"
-          />
-
           <TextInput
             value={expense ? expense.name : null}
             onChange={(event) =>
               setExpense((item) => ({
                 ...item,
-                name: event.currentTarget.value,
+                name: event.target.value,
               }))
             }
             placeholder="Название расхода"
@@ -130,18 +108,6 @@ export default function ExpenseList({ form }: { form: any }) {
             allowNegative={false}
             thousandSeparator=" "
             placeholder="Сумма расхода"
-          />
-
-          <NumberInput
-            disabled={expense.type !== 'constant'}
-            value={expense ? expense.period : null}
-            onChange={(value) =>
-              setExpense((item) => ({ ...item, period: value }))
-            }
-            allowNegative={false}
-            rightSection={<Text size="xs">мес.</Text>}
-            rightSectionPointerEvents="none"
-            placeholder="Переодичность расхода"
           />
 
           <Group justify="flex-end">

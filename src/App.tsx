@@ -1,18 +1,21 @@
 import { Routes, Route } from 'react-router-dom';
-import WelcomeView from './views/WelcomeView';
-import CreateView from './views/CreateView';
-import PlaneView from './views/PlaneView';
+import { AppShell } from '@mantine/core';
+import HomePage from './views/HomePage';
+import ChooseTypePlanPage from './views/ChooseTypePlanPage';
+import PlanCreatePage from './views/PlanCreatePage';
+import PlanViewPage from './views/PlanViewPage';
 
 export default function App() {
   return (
-    <>
+    <AppShell padding="md">
       <Routes>
         <Route path="/">
-          <Route index element={<WelcomeView />} />
-          <Route path="create" element={<CreateView />} />
-          <Route path=":id" element={<PlaneView />} />
+          <Route index element={<HomePage />} />
+          <Route path="plan/create" element={<ChooseTypePlanPage />} />
+          <Route path="plan/create/:name" element={<PlanCreatePage />} />
+          <Route path="plan/:id" element={<PlanViewPage />} />
         </Route>
       </Routes>
-    </>
+    </AppShell>
   );
 }

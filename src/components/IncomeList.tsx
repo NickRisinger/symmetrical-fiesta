@@ -14,8 +14,6 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { ArchiveBoxXMarkIcon } from '@heroicons/react/24/outline';
 import { v4 as uuid } from 'uuid';
-import { UseFormReturnType } from '@mantine/form';
-import { FormValues } from '../types';
 
 const INCOME: Record<string, string> = {
   client: 'Клиент/средний чек',
@@ -29,11 +27,7 @@ const INCOME_TYPE = [
 
 type Income = { type: any; name: any; cost: any; clients: any };
 
-export default function IncomeList({
-  form,
-}: {
-  form: UseFormReturnType<FormValues>;
-}) {
+export default function IncomeList({ form }: { form: any }) {
   const [opened, { open, close }] = useDisclosure(false);
 
   const [income, setIncome] = useState<Income>({

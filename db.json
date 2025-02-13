@@ -1,0 +1,40 @@
+{
+  "planes": [
+    {
+      "id": "string",
+      "sphere": "int",
+      "profit": "int",
+      "budget": "int",
+      "budgetType": "string",
+      "loanAmount": "string",
+      "loanTerm": "string",
+      "interestRate": "string",
+      "monthlyPayment": "int",
+      "legalForm": "string",
+      "taxRate": "string",
+      "expenses": [
+        {
+          "type": "string",
+          "name": "string",
+          "cost": "string",
+          "period": "string"
+        }
+      ],
+      "incomes": [
+        {
+          "type": "string",
+          "name": "string",
+          "cost": "string",
+          "clients": "string"
+        }
+      ],
+      "employees": [
+        {
+          "post": "string",
+          "type": "string",
+          "salary": "string"
+        }
+      ]
+    }
+  ]
+}

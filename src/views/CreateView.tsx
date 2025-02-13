@@ -122,6 +122,11 @@ export default function CreateView() {
   };
 
   const handleNext = () => {
+    if (form.values.sphere == '1') {
+      navigation('/create-coffee');
+      return;
+    }
+
     setVisibelForm(true);
   };
 

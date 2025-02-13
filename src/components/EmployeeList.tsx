@@ -11,11 +11,9 @@ import {
   NumberInput,
   Radio,
 } from '@mantine/core';
-import { UseFormReturnType } from '@mantine/form';
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import { v4 as uuid } from 'uuid';
-import { FormValues } from '../types';
 
 const INCOME: Record<string, string> = {
   officially: 'Официальное',
@@ -29,11 +27,7 @@ const EMPLOYEE_TYPE = [
 
 type Employee = { post: any; type: any; salary: any };
 
-export default function EmployeeList({
-  form,
-}: {
-  form: UseFormReturnType<FormValues>;
-}) {
+export default function EmployeeList({ form }: { form: any }) {
   const [opened, { open, close }] = useDisclosure(false);
 
   const [employee, setEmployee] = useState<Employee>({
