@@ -8,7 +8,6 @@ import {
   Paper,
   Flex,
   Group,
-  Spoiler,
   Container,
   Radio,
   NumberInput,

@@ -3,10 +3,10 @@ export const enum SphereType {
     Coffee = 'Coffee',
 };
 
-export const enum SphereName {
-    Other = 'Другая сфера',
-    Coffee = 'Кофейня',
-};
+export const SphereName: Record<SphereType, string> = {
+    'Other': 'Другая сфера',
+    'Coffee': 'Кофейня',
+}
 
 export const enum SphereDescription {
     Other = 'Сфера, которая не попадает в стандартные категории. Может включать уникальные виды деятельности или редкие отрасли.',

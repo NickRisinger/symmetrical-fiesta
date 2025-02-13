@@ -59,7 +59,7 @@ const MARKETING_BUDGET_RANGES = [
     { max: Infinity, budget: 500000 }, // 800+ посетителей
 ];
 
-const calculateEmployee = (countVisitors: number): Employee[] => {
+export const calculateEmployee = (countVisitors: number): Employee[] => {
     const result: Employee[] = [];
 
     // Определяем базовую зарплату бариста
@@ -90,16 +90,19 @@ const calculateEmployee = (countVisitors: number): Employee[] => {
 };
 
 // Функция расчета маркетингового бюджета
-const calculateMarketingBudget = (countVisitors: number): number => {
+export const calculateMarketingBudget = (countVisitors: number): number => {
     const range = MARKETING_BUDGET_RANGES.find(({ max }) => countVisitors < max);
     return range?.budget ?? 500000; // Fallback на максимальное значение
 };
 
-const calculateCountVisitors = () => { }
+export const calculateCountVisitors = () => { }
 
 
 export function calculate(plane: any) {
     const result: Array<any> = [];
+
+    console.log(plane);
+    console.log(result);
 
     let mounth = 1;
 

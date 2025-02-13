@@ -1,4 +1,4 @@
-const PlaneCoffeeView = ({ plan }: { plan: any }) => {
+const PlaneCoffeeView = ({}: { plan: any }) => {
   return <></>;
 };
 
